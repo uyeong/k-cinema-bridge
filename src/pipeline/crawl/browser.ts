@@ -1,5 +1,5 @@
 import { chromium } from 'playwright-core';
-import type { Browser } from 'playwright-core';
+import type { Browser, Page } from 'playwright-core';
 
 const CHROMIUM_PACK_URL =
   'https://github.com/Sparticuz/chromium/releases/download/v143.0.4/chromium-v143.0.4-pack.x64.tar';
@@ -13,6 +13,14 @@ function getExecutablePath(): Promise<string> {
     );
   }
   return executablePathPromise;
+}
+
+const BLOCKED_TYPES = new Set(['image', 'stylesheet', 'font', 'media']);
+
+export async function blockHeavyResources(page: Page): Promise<void> {
+  await page.route('**/*', (route) =>
+    BLOCKED_TYPES.has(route.request().resourceType()) ? route.abort() : route.continue(),
+  );
 }
 
 export async function launchBrowser(): Promise<Browser> {

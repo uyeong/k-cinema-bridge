@@ -1,5 +1,5 @@
 import { CGV_BOXOFFICE_PAGE_URL, CGV_UPCOMMING_PAGE_URL } from './constants';
-import { launchBrowser } from './browser';
+import { blockHeavyResources, launchBrowser } from './browser';
 
 import type { CrawledBoxOfficeMovie, CrawledUpcomingMovie } from './types';
 
@@ -33,6 +33,7 @@ async function crawlCgvBoxOffice(): Promise<CrawledBoxOfficeMovie[]> {
   const browser = await launchBrowser();
   const context = await browser.newContext({ userAgent: USER_AGENT });
   const page = await context.newPage();
+  await blockHeavyResources(page);
   try {
     await page.goto(CGV_BOXOFFICE_PAGE_URL, { timeout: 30_000 });
     await page.waitForSelector('li[class*="bestChartList_chartItem"]', { timeout: 15_000 });
@@ -80,6 +81,7 @@ async function crawlCgvUpcoming(): Promise<CrawledUpcomingMovie[]> {
   const browser = await launchBrowser();
   const context = await browser.newContext({ userAgent: USER_AGENT });
   const page = await context.newPage();
+  await blockHeavyResources(page);
   try {
     await page.goto(CGV_UPCOMMING_PAGE_URL, { timeout: 30_000 });
     await page.waitForSelector('li[class*="bestChartList_chartItem"]', { timeout: 15_000 });
