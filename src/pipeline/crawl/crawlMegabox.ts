@@ -1,6 +1,5 @@
-import { chromium } from 'playwright';
-
 import { MEGABOX_BOXOFFICE_PAGE_URL, MEGABOX_UPCOMMING_PAGE_URL } from './constants';
+import { launchBrowser } from './browser';
 
 import type { CrawledBoxOfficeMovie, CrawledUpcomingMovie } from './types';
 
@@ -25,7 +24,7 @@ function parseReleaseDate(text: string): string {
 }
 
 // 더보기 버튼이 보이면 클릭하고 목록 갱신을 기다린다 (최대 2회)
-async function expandList(page: import('playwright').Page): Promise<void> {
+async function expandList(page: import('playwright-core').Page): Promise<void> {
   for (let i = 0; i < 2; i++) {
     const moreButton = page.locator('button.btn:not(.btn-more-notice-list)', { hasText: '더보기' });
     if (!(await moreButton.isVisible())) break;
@@ -49,7 +48,7 @@ interface RawMegaboxBoxOfficeItem {
 
 // 메가박스 박스오피스 목록을 크롤링한다
 async function crawlMegaboxBoxOffice(): Promise<CrawledBoxOfficeMovie[]> {
-  const browser = await chromium.launch();
+  const browser = await launchBrowser();
   const page = await browser.newPage();
   try {
     await page.goto(MEGABOX_BOXOFFICE_PAGE_URL, { timeout: 30_000 });
@@ -87,7 +86,7 @@ interface RawMegaboxUpcomingItem {
 
 // 메가박스 상영예정작 목록을 크롤링한다
 async function crawlMegaboxUpcoming(): Promise<CrawledUpcomingMovie[]> {
-  const browser = await chromium.launch();
+  const browser = await launchBrowser();
   const page = await browser.newPage();
   try {
     await page.goto(MEGABOX_UPCOMMING_PAGE_URL, { timeout: 30_000 });

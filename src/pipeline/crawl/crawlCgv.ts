@@ -1,6 +1,5 @@
-import { chromium } from 'playwright';
-
 import { CGV_BOXOFFICE_PAGE_URL, CGV_UPCOMMING_PAGE_URL } from './constants';
+import { launchBrowser } from './browser';
 
 import type { CrawledBoxOfficeMovie, CrawledUpcomingMovie } from './types';
 
@@ -31,7 +30,7 @@ interface RawCgvBoxOfficeItem {
 
 // CGV 박스오피스 목록을 크롤링한다
 async function crawlCgvBoxOffice(): Promise<CrawledBoxOfficeMovie[]> {
-  const browser = await chromium.launch();
+  const browser = await launchBrowser();
   const context = await browser.newContext({ userAgent: USER_AGENT });
   const page = await context.newPage();
   try {
@@ -78,7 +77,7 @@ interface RawCgvUpcomingItem {
 
 // CGV 상영예정작 목록을 크롤링한다
 async function crawlCgvUpcoming(): Promise<CrawledUpcomingMovie[]> {
-  const browser = await chromium.launch();
+  const browser = await launchBrowser();
   const context = await browser.newContext({ userAgent: USER_AGENT });
   const page = await context.newPage();
   try {

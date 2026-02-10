@@ -6,10 +6,6 @@ import { crawlers, isValidSource } from '../../_lib/crawlers';
 
 export const revalidate = 86400;
 
-export function generateStaticParams() {
-  return [{ source: 'lotte' }, { source: 'cgv' }, { source: 'megabox' }];
-}
-
 export async function GET(_: Request, { params }: { params: Promise<{ source: string }> }) {
   const { source } = await params;
   if (!isValidSource(source)) {

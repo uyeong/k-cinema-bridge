@@ -10,9 +10,10 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@sparticuz/chromium": "^143.0.4",
     "fast-querystring": "^1.1.2",
     "next": "16.1.6",
-    "playwright": "^1.58.2",
+    "playwright-core": "^1.58.2",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
@@ -24,6 +25,7 @@
     "dotenv": "^17.2.4",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "playwright": "^1.58.2",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.0.18"

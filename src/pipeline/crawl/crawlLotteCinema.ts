@@ -1,6 +1,5 @@
-import { chromium } from 'playwright';
-
 import { LOTTE_CINEMA_BOXOFFICE_PAGE_URL, LOTTE_CINEMA_UPCOMING_PAGE_URL } from './constants';
+import { launchBrowser } from './browser';
 
 import type { CrawledBoxOfficeMovie, CrawledUpcomingMovie } from './types';
 
@@ -20,7 +19,7 @@ interface RawBoxOfficeItem {
 
 // 롯데시네마 박스오피스 목록을 크롤링한다
 async function crawlLotteBoxOffice(): Promise<CrawledBoxOfficeMovie[]> {
-  const browser = await chromium.launch();
+  const browser = await launchBrowser();
   const page = await browser.newPage();
   try {
     await page.goto(LOTTE_CINEMA_BOXOFFICE_PAGE_URL, { timeout: 30_000 });
@@ -83,7 +82,7 @@ interface RawUpcomingItem {
 
 // 롯데시네마 상영예정작 목록을 크롤링한다
 async function crawlLotteUpcoming(): Promise<CrawledUpcomingMovie[]> {
-  const browser = await chromium.launch();
+  const browser = await launchBrowser();
   const page = await browser.newPage();
   try {
     await page.goto(LOTTE_CINEMA_UPCOMING_PAGE_URL, { timeout: 30_000 });
