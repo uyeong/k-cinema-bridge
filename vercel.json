@@ -1,8 +1,12 @@
 {
   "crons": [
     {
-      "path": "/api/revalidate",
+      "path": "/api/revalidate?type=boxoffice",
       "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/revalidate?type=upcoming",
+      "schedule": "5 0 * * *"
     }
   ]
 }

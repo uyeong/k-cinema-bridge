@@ -1,12 +1,19 @@
 import { revalidateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
 
+import { withSharedBrowser } from '@/pipeline/crawl';
+
 import { SOURCES } from '../_lib/crawlers';
 import { getCachedBoxOffice, getCachedUpcoming } from '../_lib/cached';
 
-const TAGS = ['boxoffice', 'upcoming'];
-
 export const maxDuration = 60;
+
+type RevalidateType = 'boxoffice' | 'upcoming';
+
+const handlers: Record<RevalidateType, (source: string) => Promise<unknown>> = {
+  boxoffice: getCachedBoxOffice,
+  upcoming: getCachedUpcoming,
+};
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization');
@@ -14,14 +21,21 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  // 1. 기존 캐시 무효화
-  TAGS.forEach((tag) => revalidateTag(tag, { expire: 86400 }));
+  const url = new URL(request.url);
+  const type = url.searchParams.get('type') as RevalidateType | null;
+  const types: RevalidateType[] = type ? [type] : ['boxoffice', 'upcoming'];
 
-  // 2. 캐시 재생성 (순차 실행으로 메모리 절약)
-  for (const source of SOURCES) {
-    await getCachedBoxOffice(source);
-    await getCachedUpcoming(source);
-  }
+  // 1. 캐시 무효화
+  types.forEach((t) => revalidateTag(t, { expire: 86400 }));
 
-  return NextResponse.json({ revalidated: TAGS });
+  // 2. 공유 브라우저로 캐시 재생성
+  await withSharedBrowser(async () => {
+    for (const t of types) {
+      for (const source of SOURCES) {
+        await handlers[t](source);
+      }
+    }
+  });
+
+  return NextResponse.json({ revalidated: types });
 }
