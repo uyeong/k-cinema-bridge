@@ -29,13 +29,20 @@ export async function GET(request: Request) {
   types.forEach((t) => revalidateTag(t, { expire: 86400 }));
 
   // 2. 공유 브라우저로 캐시 재생성
+  const results: Record<string, 'ok' | string> = {};
+
   await withSharedBrowser(async () => {
     for (const t of types) {
       for (const source of SOURCES) {
-        await handlers[t](source);
+        try {
+          await handlers[t](source);
+          results[`${t}/${source}`] = 'ok';
+        } catch (e) {
+          results[`${t}/${source}`] = e instanceof Error ? e.message : String(e);
+        }
       }
     }
   });
 
-  return NextResponse.json({ revalidated: types });
+  return NextResponse.json({ revalidated: types, results });
 }
