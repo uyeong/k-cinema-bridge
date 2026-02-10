@@ -8,11 +8,10 @@ export const dynamic = 'force-dynamic';
 export const revalidate = 86400;
 
 export async function GET() {
-  const entries = await Promise.all(
-    SOURCES.map(async (source) => {
-      const movies = await crawlers[source].boxOffice();
-      return [source, await transformBoxOffice(source, movies)] as const;
-    }),
-  );
+  const entries: [string, Awaited<ReturnType<typeof transformBoxOffice>>][] = [];
+  for (const source of SOURCES) {
+    const movies = await crawlers[source].boxOffice();
+    entries.push([source, await transformBoxOffice(source, movies)]);
+  }
   return NextResponse.json(Object.fromEntries(entries));
 }
