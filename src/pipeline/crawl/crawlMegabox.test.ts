@@ -8,7 +8,6 @@ describe('crawlMegabox', () => {
   it('박스오피스 목록을 반환한다', async () => {
     const movies: CrawledBoxOfficeMovie[] = await crawlMegaboxBoxOffice();
     expect(movies.length).toBeGreaterThan(0);
-    console.log(movies);
     const first = movies[0];
     expect(first.rank).toBe(1);
     expect(first.title).toBeTruthy();
