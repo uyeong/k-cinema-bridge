@@ -16,7 +16,7 @@ const getCachedUpcoming = unstable_cache(
     return transformUpcoming(s, movies);
   },
   ['upcoming'],
-  { revalidate: 86400 },
+  { revalidate: 86400, tags: ['upcoming'] },
 );
 
 export async function GET(_: Request, { params }: { params: Promise<{ source: string }> }) {

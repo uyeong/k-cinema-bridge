@@ -16,7 +16,7 @@ const getCachedBoxOffice = unstable_cache(
     return transformBoxOffice(s, movies);
   },
   ['boxoffice'],
-  { revalidate: 86400 },
+  { revalidate: 86400, tags: ['boxoffice'] },
 );
 
 export async function GET(_: Request, { params }: { params: Promise<{ source: string }> }) {
