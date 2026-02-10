@@ -1,19 +1,16 @@
-import { updateTag } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
 
-import { withSharedBrowser } from '@/pipeline/crawl';
-
 import { SOURCES } from '../_lib/crawlers';
-import { getCachedBoxOffice, getCachedUpcoming } from '../_lib/cached';
 
 export const maxDuration = 60;
 
 type RevalidateType = 'boxoffice' | 'upcoming';
 
-const handlers: Record<RevalidateType, (source: string) => Promise<unknown>> = {
-  boxoffice: getCachedBoxOffice,
-  upcoming: getCachedUpcoming,
-};
+function getBaseUrl(): string {
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+  return 'http://localhost:3000';
+}
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization');
@@ -25,24 +22,26 @@ export async function GET(request: Request) {
   const type = url.searchParams.get('type') as RevalidateType | null;
   const types: RevalidateType[] = type ? [type] : ['boxoffice', 'upcoming'];
 
-  // 1. 캐시 즉시 무효화 (같은 요청 내에서 fresh 데이터 반환)
-  types.forEach((t) => updateTag(t));
+  // 1. 캐시 무효화
+  types.forEach((t) => revalidateTag(t, { expire: 86400 }));
 
-  // 2. 공유 브라우저로 캐시 재생성
+  // 2. 각 route를 직접 fetch하여 캐시 재생성
+  //    각 route가 자신의 번들 컨텍스트에서 unstable_cache를 채움
+  const baseUrl = getBaseUrl();
   const results: Record<string, 'ok' | string> = {};
 
-  await withSharedBrowser(async () => {
-    for (const t of types) {
-      for (const source of SOURCES) {
-        try {
-          await handlers[t](source);
-          results[`${t}/${source}`] = 'ok';
-        } catch (e) {
-          results[`${t}/${source}`] = e instanceof Error ? e.message : String(e);
-        }
+  for (const t of types) {
+    const fetches = SOURCES.map(async (source) => {
+      try {
+        const res = await fetch(`${baseUrl}/api/${t}/${source}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        results[`${t}/${source}`] = 'ok';
+      } catch (e) {
+        results[`${t}/${source}`] = e instanceof Error ? e.message : String(e);
       }
-    }
-  });
+    });
+    await Promise.all(fetches);
+  }
 
   return NextResponse.json({ revalidated: types, results });
 }
