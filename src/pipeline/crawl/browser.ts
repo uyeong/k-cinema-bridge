@@ -18,6 +18,7 @@ function getExecutablePath(): Promise<string> {
 const BLOCKED_TYPES = new Set(['image', 'stylesheet', 'font', 'media']);
 
 export async function blockHeavyResources(page: Page): Promise<void> {
+  if (!process.env.VERCEL) return;
   await page.route('**/*', (route) =>
     BLOCKED_TYPES.has(route.request().resourceType()) ? route.abort() : route.continue(),
   );
