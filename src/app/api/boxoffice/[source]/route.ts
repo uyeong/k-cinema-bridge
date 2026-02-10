@@ -4,6 +4,7 @@ import { transformBoxOffice } from '@/pipeline/transform';
 
 import { crawlers, isValidSource } from '../../_lib/crawlers';
 
+export const maxDuration = 60;
 export const revalidate = 86400;
 
 export async function GET(_: Request, { params }: { params: Promise<{ source: string }> }) {
