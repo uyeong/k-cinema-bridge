@@ -1,0 +1,1 @@
+export { crawlLotteBoxOffice, crawlLotteUpcoming } from './crawlLotteCinema';
