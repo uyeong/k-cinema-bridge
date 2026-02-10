@@ -20,16 +20,22 @@ interface Result {
   companys: { companyCd: string; companyNm: string }[];
 }
 
+const cache = new Map<string, Result | null>();
+
 // 영화명으로 KOBIS 영화코드를 조회한다
 // 동명 영화가 여러 개일 수 있으므로 개봉일 기준 최신 선택
 async function searchMovieCode({ movieNm }: Params): Promise<Result | null> {
+  if (cache.has(movieNm)) return cache.get(movieNm)!;
+
   const query = qs.stringify({ key: process.env.KOBIS_API_KEY!, movieNm });
   const res = await fetch(`${process.env.KOBIS_API_URL}/searchMovieList.json?${query}`);
   const data = await res.json();
   const matches = data.movieListResult.movieList
     .filter((m: Result) => m.movieNm === movieNm)
     .sort((a: Result, b: Result) => b.openDt.localeCompare(a.openDt));
-  return matches[0] ?? null;
+  const result = matches[0] ?? null;
+  cache.set(movieNm, result);
+  return result;
 }
 
 export default searchMovieCode;

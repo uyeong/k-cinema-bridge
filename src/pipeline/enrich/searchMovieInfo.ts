@@ -24,12 +24,18 @@ interface Result {
   staffs: { peopleNm: string; peopleNmEn: string; staffRoleNm: string }[];
 }
 
+const cache = new Map<string, Result>();
+
 // 영화코드로 KOBIS 상세정보를 조회한다
 async function searchMovieInfo({ movieCd }: Params): Promise<Result> {
+  if (cache.has(movieCd)) return cache.get(movieCd)!;
+
   const query = qs.stringify({ key: process.env.KOBIS_API_KEY!, movieCd });
   const res = await fetch(`${process.env.KOBIS_API_URL}/searchMovieInfo.json?${query}`);
   const data = await res.json();
-  return data.movieInfoResult.movieInfo;
+  const result = data.movieInfoResult.movieInfo;
+  cache.set(movieCd, result);
+  return result;
 }
 
 export default searchMovieInfo;
