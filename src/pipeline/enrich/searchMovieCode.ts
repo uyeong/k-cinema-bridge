@@ -26,7 +26,6 @@ const cache = new Map<string, Result | null>();
 // 동명 영화가 여러 개일 수 있으므로 개봉일 기준 최신 선택
 async function searchMovieCode({ movieNm }: Params): Promise<Result | null> {
   if (cache.has(movieNm)) return cache.get(movieNm)!;
-
   const query = qs.stringify({ key: process.env.KOBIS_API_KEY!, movieNm });
   const res = await fetch(`${process.env.KOBIS_API_URL}/searchMovieList.json?${query}`);
   const data = await res.json();
