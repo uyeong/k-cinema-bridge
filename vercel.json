@@ -1,11 +1,11 @@
 {
   "crons": [
     {
-      "path": "/api/revalidate?type=boxoffice",
+      "path": "/api/boxoffice",
       "schedule": "0 0 * * *"
     },
     {
-      "path": "/api/revalidate?type=upcoming",
+      "path": "/api/upcoming",
       "schedule": "5 0 * * *"
     }
   ]
