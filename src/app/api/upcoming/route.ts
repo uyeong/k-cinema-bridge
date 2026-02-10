@@ -1,24 +1,12 @@
-import { unstable_cache } from 'next/cache';
 import { NextResponse } from 'next/server';
 
-import { transformUpcoming } from '@/pipeline/transform';
+import type { transformUpcoming } from '@/pipeline/transform';
 
-import type { CinemaSource } from '@/pipeline/transform/types';
-
-import { crawlers, SOURCES } from '../_lib/crawlers';
+import { SOURCES } from '../_lib/crawlers';
+import { getCachedUpcoming } from '../_lib/cached';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
-
-const getCachedUpcoming = unstable_cache(
-  async (source: string) => {
-    const s = source as CinemaSource;
-    const movies = await crawlers[s].upcoming();
-    return transformUpcoming(s, movies);
-  },
-  ['upcoming'],
-  { revalidate: 86400, tags: ['upcoming'] },
-);
 
 export async function GET() {
   const entries: [string, Awaited<ReturnType<typeof transformUpcoming>>][] = [];
