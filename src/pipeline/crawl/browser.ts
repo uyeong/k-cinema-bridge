@@ -32,7 +32,9 @@ async function createBrowser(): Promise<Browser> {
       headless: true,
     });
   }
-  return chromium.launch();
+  // 로컬: devDep playwright가 설치한 브라우저 바이너리 사용
+  const { chromium: localChromium } = await import('playwright');
+  return localChromium.launch();
 }
 
 // 공유 브라우저: withSharedBrowser 내부에서 launchBrowser를 호출하면
