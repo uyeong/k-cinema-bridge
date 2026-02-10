@@ -11,5 +11,10 @@ export async function GET(_: Request, { params }: { params: Promise<{ source: st
     return NextResponse.json({ error: 'Invalid source' }, { status: 404 });
   }
   const result = await getCachedUpcoming(source);
-  return NextResponse.json(result);
+  const response = NextResponse.json(result);
+  response.headers.set(
+    'CDN-Cache-Control',
+    'public, max-age=86400, stale-while-revalidate=86400',
+  );
+  return response;
 }

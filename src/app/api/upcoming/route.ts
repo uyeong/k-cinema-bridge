@@ -16,5 +16,10 @@ export async function GET() {
       entries.push([source, await getCachedUpcoming(source)]);
     }
   });
-  return NextResponse.json(Object.fromEntries(entries));
+  const response = NextResponse.json(Object.fromEntries(entries));
+  response.headers.set(
+    'CDN-Cache-Control',
+    'public, max-age=86400, stale-while-revalidate=86400',
+  );
+  return response;
 }
