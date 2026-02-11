@@ -36,6 +36,9 @@ jobs:
       - run: pnpm lint
 
       - run: pnpm test -- --run
+        env:
+          KOBIS_API_KEY: ${{ secrets.KOBIS_API_KEY }}
+          KOBIS_API_URL: ${{ secrets.KOBIS_API_URL }}
 
   build-deploy:
     needs: [check]
