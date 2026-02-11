@@ -16,59 +16,33 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  check:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - run: pnpm install --frozen-lockfile
-
-      - run: pnpm exec playwright install --with-deps chromium
-
-      - run: pnpm lint
-
-      - run: pnpm test -- --run
-        env:
-          KOBIS_API_KEY: ${{ secrets.KOBIS_API_KEY }}
-          KOBIS_API_URL: ${{ secrets.KOBIS_API_URL }}
-
-  build-deploy:
-    needs: [check]
-    if: always() && (needs.check.result == 'success' || needs.check.result == 'skipped')
+  deploy:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      KOBIS_API_KEY: ${{ secrets.KOBIS_API_KEY }}
+      KOBIS_API_URL: ${{ vars.KOBIS_API_URL }}
     steps:
       - uses: actions/checkout@v4
-
       - uses: pnpm/action-setup@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
-
       - run: pnpm install --frozen-lockfile
-
       - run: pnpm exec playwright install --with-deps chromium
 
+      - if: github.event_name == 'push'
+        run: pnpm lint
+      - if: github.event_name == 'push'
+        run: pnpm test -- --run
+
       - run: pnpm build
-        env:
-          KOBIS_API_KEY: ${{ secrets.KOBIS_API_KEY }}
-          KOBIS_API_URL: ${{ secrets.KOBIS_API_URL }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
           path: out
-
       - id: deployment
         uses: actions/deploy-pages@v4
