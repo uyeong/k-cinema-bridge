@@ -1,3 +1,6 @@
-import dotenv from 'dotenv';
+if (!process.env.CI) {
+  const { config } = await import('dotenv');
+  config({ path: '.env' });
+}
 
-dotenv.config({ path: '.env' });
+export {};
