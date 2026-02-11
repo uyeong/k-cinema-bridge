@@ -439,6 +439,40 @@ export default function Home() {
         </div>
       </section>
 
+      {/* AI 에이전트 스킬 설정 */}
+      <section className="mt-12">
+        <h2 className="text-2xl font-semibold">AI 에이전트 스킬 설정</h2>
+        <p className="mt-3 leading-7 text-zinc-700 dark:text-zinc-300">
+          AI 에이전트가 이 API를 활용할 수 있도록 스킬 파일을 제공합니다.
+          아래 URL의 내용을 에이전트 설정에 추가하면 한국 영화 데이터를
+          자동으로 조회하고 활용할 수 있습니다.
+        </p>
+
+        <div className="mt-4 overflow-x-auto rounded-lg bg-zinc-100 p-4 text-sm dark:bg-zinc-800">
+          <p className="font-semibold">SKILL_URL</p>
+          <code>https://uyeong.github.io/k-cinema-bridge/SKILL.md</code>
+        </div>
+
+        <h3 className="mt-6 text-lg font-semibold">Claude Code</h3>
+        <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">
+          SKILL.md 내용을 프로젝트의{" "}
+          <code className="rounded bg-zinc-100 px-1.5 py-0.5 dark:bg-zinc-800">
+            .claude/settings.json
+          </code>
+          에 skill로 등록하거나,{" "}
+          <code className="rounded bg-zinc-100 px-1.5 py-0.5 dark:bg-zinc-800">
+            CLAUDE.md
+          </code>
+          에 SKILL_URL을 참조하도록 지침을 추가합니다.
+        </p>
+
+        <h3 className="mt-6 text-lg font-semibold">OpenClaw</h3>
+        <p className="mt-2 text-sm text-zinc-700 dark:text-zinc-300">
+          에이전트 프롬프트 또는 스킬 설정에서 위 URL을 fetch하여
+          컨텍스트에 포함시킵니다.
+        </p>
+      </section>
+
       {/* 보충 정보 */}
       <section className="mt-12">
         <h2 className="text-2xl font-semibold">보충 정보</h2>
