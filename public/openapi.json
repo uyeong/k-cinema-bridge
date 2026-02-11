@@ -275,7 +275,7 @@
           }
         },
         "required": ["code", "title", "englishTitle", "originalTitle", "runtime", "productionYear", "openDate", "productionStatus", "type", "nations", "genres", "directors", "actors", "showTypes", "companies", "audits", "staff"]
-      },
-}
+      }
+    }
   }
 }
