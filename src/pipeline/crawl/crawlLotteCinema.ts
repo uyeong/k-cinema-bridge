@@ -22,7 +22,7 @@ async function crawlLotteBoxOffice(): Promise<CrawledBoxOfficeMovie[]> {
   const browser = await launchBrowser();
   const page = await browser.newPage();
   try {
-    await page.goto(LOTTE_CINEMA_BOXOFFICE_PAGE_URL, { timeout: 30_000 });
+    await page.goto(LOTTE_CINEMA_BOXOFFICE_PAGE_URL, { timeout: 60_000 });
     await page.waitForSelector('ul.movie_list.type2 > li', { timeout: 15_000 });
     // 펼쳐보기 버튼이 있으면 클릭 후 새 항목 로드 대기
     const moreButton = page.locator('button.btn_txt_more');
@@ -85,7 +85,7 @@ async function crawlLotteUpcoming(): Promise<CrawledUpcomingMovie[]> {
   const browser = await launchBrowser();
   const page = await browser.newPage();
   try {
-    await page.goto(LOTTE_CINEMA_UPCOMING_PAGE_URL, { timeout: 30_000 });
+    await page.goto(LOTTE_CINEMA_UPCOMING_PAGE_URL, { timeout: 60_000 });
     await page.waitForSelector('ul.movie_list.type2 > li', { timeout: 15_000 });
     // 펼쳐보기 버튼이 있으면 클릭 후 새 항목 로드 대기
     const moreButton = page.locator('button.btn_txt_more');

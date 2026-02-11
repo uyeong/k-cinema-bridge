@@ -51,7 +51,7 @@ async function crawlMegaboxBoxOffice(): Promise<CrawledBoxOfficeMovie[]> {
   const browser = await launchBrowser();
   const page = await browser.newPage();
   try {
-    await page.goto(MEGABOX_BOXOFFICE_PAGE_URL, { timeout: 30_000 });
+    await page.goto(MEGABOX_BOXOFFICE_PAGE_URL, { timeout: 60_000 });
     await page.waitForSelector('ol > li', { timeout: 15_000 });
     await expandList(page);
     const rawItems = await page.evaluate(() => {
@@ -89,7 +89,7 @@ async function crawlMegaboxUpcoming(): Promise<CrawledUpcomingMovie[]> {
   const browser = await launchBrowser();
   const page = await browser.newPage();
   try {
-    await page.goto(MEGABOX_UPCOMMING_PAGE_URL, { timeout: 30_000 });
+    await page.goto(MEGABOX_UPCOMMING_PAGE_URL, { timeout: 60_000 });
     await page.waitForSelector('ol > li', { timeout: 15_000 });
     await expandList(page);
     const rawItems = await page.evaluate(() => {

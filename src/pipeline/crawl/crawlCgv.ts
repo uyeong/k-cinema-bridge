@@ -34,7 +34,7 @@ async function crawlCgvBoxOffice(): Promise<CrawledBoxOfficeMovie[]> {
   const context = await browser.newContext({ userAgent: USER_AGENT });
   const page = await context.newPage();
   try {
-    await page.goto(CGV_BOXOFFICE_PAGE_URL, { timeout: 30_000 });
+    await page.goto(CGV_BOXOFFICE_PAGE_URL, { timeout: 60_000 });
     await page.waitForSelector('li[class*="bestChartList_chartItem"]', { timeout: 15_000 });
     const rawItems = await page.evaluate(() => {
       const items = document.querySelectorAll('li[class*="bestChartList_chartItem"]');
@@ -81,7 +81,7 @@ async function crawlCgvUpcoming(): Promise<CrawledUpcomingMovie[]> {
   const context = await browser.newContext({ userAgent: USER_AGENT });
   const page = await context.newPage();
   try {
-    await page.goto(CGV_UPCOMMING_PAGE_URL, { timeout: 30_000 });
+    await page.goto(CGV_UPCOMMING_PAGE_URL, { timeout: 60_000 });
     await page.waitForSelector('li[class*="bestChartList_chartItem"]', { timeout: 15_000 });
     const rawItems = await page.evaluate(() => {
       const items = document.querySelectorAll('li[class*="bestChartList_chartItem"]');
