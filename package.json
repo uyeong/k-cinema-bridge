@@ -4,13 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "build": "next build && tsx scripts/generate.ts",
+    "generate": "tsx scripts/generate.ts",
     "lint": "eslint",
     "test": "vitest"
   },
   "dependencies": {
-    "@sparticuz/chromium-min": "^143.0.4",
     "fast-querystring": "^1.1.2",
     "next": "16.1.6",
     "playwright-core": "^1.58.2",
@@ -27,6 +26,7 @@
     "eslint-config-next": "16.1.6",
     "playwright": "^1.58.2",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5",
     "vitest": "^4.0.18"
   },

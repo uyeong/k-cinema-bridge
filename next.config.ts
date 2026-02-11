@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ['@sparticuz/chromium-min', 'playwright-core'],
+  output: 'export',
+  basePath: process.env.GITHUB_ACTIONS ? '/k-cinema-bridge' : '',
 };
 
 export default nextConfig;

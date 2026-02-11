@@ -1,5 +1,5 @@
 import { MEGABOX_BOXOFFICE_PAGE_URL, MEGABOX_UPCOMMING_PAGE_URL } from './constants';
-import { blockHeavyResources, launchBrowser } from './browser';
+import { launchBrowser } from './browser';
 
 import type { CrawledBoxOfficeMovie, CrawledUpcomingMovie } from './types';
 
@@ -50,7 +50,6 @@ interface RawMegaboxBoxOfficeItem {
 async function crawlMegaboxBoxOffice(): Promise<CrawledBoxOfficeMovie[]> {
   const browser = await launchBrowser();
   const page = await browser.newPage();
-  await blockHeavyResources(page);
   try {
     await page.goto(MEGABOX_BOXOFFICE_PAGE_URL, { timeout: 30_000 });
     await page.waitForSelector('ol > li', { timeout: 15_000 });
@@ -89,7 +88,6 @@ interface RawMegaboxUpcomingItem {
 async function crawlMegaboxUpcoming(): Promise<CrawledUpcomingMovie[]> {
   const browser = await launchBrowser();
   const page = await browser.newPage();
-  await blockHeavyResources(page);
   try {
     await page.goto(MEGABOX_UPCOMMING_PAGE_URL, { timeout: 30_000 });
     await page.waitForSelector('ol > li', { timeout: 15_000 });

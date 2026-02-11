@@ -7,11 +7,11 @@
   },
   "servers": [
     {
-      "url": "https://k-cinema-bridge.vercel.app"
+      "url": "https://uyeong.github.io/k-cinema-bridge"
     }
   ],
   "paths": {
-    "/api/boxoffice": {
+    "/api/boxoffice.json": {
       "get": {
         "operationId": "getAllBoxOffice",
         "summary": "전체 소스 박스오피스 종합",
@@ -45,7 +45,7 @@
         }
       }
     },
-    "/api/boxoffice/{source}": {
+    "/api/boxoffice/{source}.json": {
       "get": {
         "operationId": "getBoxOfficeBySource",
         "summary": "소스별 박스오피스",
@@ -70,19 +70,11 @@
                 }
               }
             }
-          },
-          "404": {
-            "description": "유효하지 않은 source",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" }
-              }
-            }
           }
         }
       }
     },
-    "/api/upcoming": {
+    "/api/upcoming.json": {
       "get": {
         "operationId": "getAllUpcoming",
         "summary": "전체 소스 상영예정작 종합",
@@ -116,7 +108,7 @@
         }
       }
     },
-    "/api/upcoming/{source}": {
+    "/api/upcoming/{source}.json": {
       "get": {
         "operationId": "getUpcomingBySource",
         "summary": "소스별 상영예정작",
@@ -139,14 +131,6 @@
                   "type": "array",
                   "items": { "$ref": "#/components/schemas/UpcomingMovie" }
                 }
-              }
-            }
-          },
-          "404": {
-            "description": "유효하지 않은 source",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/Error" }
               }
             }
           }
@@ -292,13 +276,6 @@
         },
         "required": ["code", "title", "englishTitle", "originalTitle", "runtime", "productionYear", "openDate", "productionStatus", "type", "nations", "genres", "directors", "actors", "showTypes", "companies", "audits", "staff"]
       },
-      "Error": {
-        "type": "object",
-        "properties": {
-          "error": { "type": "string" }
-        },
-        "required": ["error"]
-      }
-    }
+}
   }
 }

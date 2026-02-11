@@ -1,5 +1,5 @@
 import { LOTTE_CINEMA_BOXOFFICE_PAGE_URL, LOTTE_CINEMA_UPCOMING_PAGE_URL } from './constants';
-import { blockHeavyResources, launchBrowser } from './browser';
+import { launchBrowser } from './browser';
 
 import type { CrawledBoxOfficeMovie, CrawledUpcomingMovie } from './types';
 
@@ -21,7 +21,6 @@ interface RawBoxOfficeItem {
 async function crawlLotteBoxOffice(): Promise<CrawledBoxOfficeMovie[]> {
   const browser = await launchBrowser();
   const page = await browser.newPage();
-  await blockHeavyResources(page);
   try {
     await page.goto(LOTTE_CINEMA_BOXOFFICE_PAGE_URL, { timeout: 30_000 });
     await page.waitForSelector('ul.movie_list.type2 > li', { timeout: 15_000 });
@@ -85,7 +84,6 @@ interface RawUpcomingItem {
 async function crawlLotteUpcoming(): Promise<CrawledUpcomingMovie[]> {
   const browser = await launchBrowser();
   const page = await browser.newPage();
-  await blockHeavyResources(page);
   try {
     await page.goto(LOTTE_CINEMA_UPCOMING_PAGE_URL, { timeout: 30_000 });
     await page.waitForSelector('ul.movie_list.type2 > li', { timeout: 15_000 });

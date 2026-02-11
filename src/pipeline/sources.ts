@@ -5,9 +5,9 @@ import {
   crawlCgvUpcoming,
   crawlMegaboxBoxOffice,
   crawlMegaboxUpcoming,
-} from '@/pipeline/crawl';
+} from './crawl';
 
-import type { CinemaSource } from '@/pipeline/transform';
+import type { CinemaSource } from './transform';
 
 const crawlers = {
   lotte: { boxOffice: crawlLotteBoxOffice, upcoming: crawlLotteUpcoming },
@@ -17,8 +17,4 @@ const crawlers = {
 
 const SOURCES = Object.keys(crawlers) as CinemaSource[];
 
-function isValidSource(s: string): s is CinemaSource {
-  return s in crawlers;
-}
-
-export { crawlers, SOURCES, isValidSource };
+export { crawlers, SOURCES };

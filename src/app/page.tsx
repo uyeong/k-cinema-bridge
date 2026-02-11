@@ -27,8 +27,8 @@ export default function Home() {
 
         <h3 className="mt-8 text-xl font-semibold">AI 에이전트용 지침 (AGENT INSTRUCTIONS)</h3>
         <ul className="mt-3 list-disc space-y-1 pl-6 text-zinc-700 dark:text-zinc-300">
-          <li>BASE_URL: https://k-cinema-bridge.vercel.app</li>
-          <li>OPENAPI_SPEC: https://k-cinema-bridge.vercel.app/openapi.json</li>
+          <li>BASE_URL: https://uyeong.github.io/k-cinema-bridge</li>
+          <li>OPENAPI_SPEC: https://uyeong.github.io/k-cinema-bridge/openapi.json</li>
           <li>모든 엔드포인트는 인증 없이 GET 요청만으로 사용 가능</li>
           <li>info 필드가 null일 수 있으므로 반드시 null 체크 필요</li>
         </ul>
@@ -36,21 +36,21 @@ export default function Home() {
         <pre className="mt-4 overflow-x-auto whitespace-pre-wrap rounded-lg bg-zinc-100 p-4 text-sm leading-relaxed dark:bg-zinc-800">
           <code>{`## Case 1: 현재 인기 영화 추천
 트리거: "요즘 뭐 볼만해?", "영화 추천해줘"
-엔드포인트: GET /api/boxoffice
+엔드포인트: GET /api/boxoffice.json
 설명: 전체 멀티플렉스 박스오피스를 가져와 공통 상위권 영화를 파악한다.
 - data.lotte, data.cgv, data.megabox 각각 BoxOfficeMovie[]
 - rank가 낮을수록 상위, info.genres로 장르 안내 가능
 
 ## Case 2: 개봉 예정작 안내
 트리거: "곧 개봉하는 영화 뭐 있어?", "다음 달 영화"
-엔드포인트: GET /api/upcoming
+엔드포인트: GET /api/upcoming.json
 설명: 전체 멀티플렉스 상영예정작을 가져온다.
 - releaseDate(YYYY-MM-DD)로 날짜 필터링
 - info.genres, info.directors, info.actors로 상세 정보 제공
 
 ## Case 3: 장르/감독/배우 기반 검색
 트리거: "액션 영화 뭐 해?", "봉준호 신작 나왔어?", "마동석 영화"
-엔드포인트: GET /api/boxoffice + GET /api/upcoming
+엔드포인트: GET /api/boxoffice.json + GET /api/upcoming.json
 설명: 박스오피스와 상영예정작을 모두 조회 후 info 필드로 필터링한다.
 - 장르: movie.info?.genres.includes("액션")
 - 감독: movie.info?.directors.some(d => d.name === "봉준호")
@@ -58,20 +58,20 @@ export default function Home() {
 
 ## Case 4: 관람 등급 기반 필터링
 트리거: "아이랑 볼만한 영화", "전체관람가 영화 뭐 있어?"
-엔드포인트: GET /api/boxoffice 또는 GET /api/upcoming
+엔드포인트: GET /api/boxoffice.json 또는 GET /api/upcoming.json
 설명: rating 필드로 필터링한다. info 없이도 가능.
 - "전체 관람가" | "12세 관람가" | "15세 관람가" | "청소년 관람불가"
 - 예: movies.filter(m => m.rating === "전체 관람가")
 
 ## Case 5: 특정 멀티플렉스 조회
 트리거: "CGV에서 뭐 해?", "롯데시네마 상영작"
-엔드포인트: GET /api/boxoffice/{source} 또는 GET /api/upcoming/{source}
+엔드포인트: GET /api/boxoffice/{source}.json 또는 GET /api/upcoming/{source}.json
 설명: source는 "lotte" | "cgv" | "megabox"
 - rank 순으로 정렬되어 있음, posterUrl로 포스터 표시 가능
 
 ## Case 6: 멀티플렉스 간 비교
 트리거: "CGV랑 메가박스 순위 차이 알려줘"
-엔드포인트: GET /api/boxoffice
+엔드포인트: GET /api/boxoffice.json
 설명: 종합 데이터에서 같은 title을 가진 영화의 rank를 비교한다.
 - 특정 멀티플렉스에만 있는 영화 파악 가능`}</code>
         </pre>
@@ -92,42 +92,42 @@ export default function Home() {
             <tbody className="text-zinc-700 dark:text-zinc-300">
               <tr className="border-b border-zinc-100 dark:border-zinc-800">
                 <td className="py-2 pr-4 font-mono">GET</td>
-                <td className="py-2 pr-4 font-mono">/api/boxoffice</td>
+                <td className="py-2 pr-4 font-mono">/api/boxoffice.json</td>
                 <td className="py-2">전체 소스 박스오피스 종합</td>
               </tr>
               <tr className="border-b border-zinc-100 dark:border-zinc-800">
                 <td className="py-2 pr-4 font-mono">GET</td>
-                <td className="py-2 pr-4 font-mono">/api/boxoffice/lotte</td>
+                <td className="py-2 pr-4 font-mono">/api/boxoffice/lotte.json</td>
                 <td className="py-2">롯데시네마 박스오피스</td>
               </tr>
               <tr className="border-b border-zinc-100 dark:border-zinc-800">
                 <td className="py-2 pr-4 font-mono">GET</td>
-                <td className="py-2 pr-4 font-mono">/api/boxoffice/cgv</td>
+                <td className="py-2 pr-4 font-mono">/api/boxoffice/cgv.json</td>
                 <td className="py-2">CGV 박스오피스</td>
               </tr>
               <tr className="border-b border-zinc-100 dark:border-zinc-800">
                 <td className="py-2 pr-4 font-mono">GET</td>
-                <td className="py-2 pr-4 font-mono">/api/boxoffice/megabox</td>
+                <td className="py-2 pr-4 font-mono">/api/boxoffice/megabox.json</td>
                 <td className="py-2">메가박스 박스오피스</td>
               </tr>
               <tr className="border-b border-zinc-100 dark:border-zinc-800">
                 <td className="py-2 pr-4 font-mono">GET</td>
-                <td className="py-2 pr-4 font-mono">/api/upcoming</td>
+                <td className="py-2 pr-4 font-mono">/api/upcoming.json</td>
                 <td className="py-2">전체 소스 상영예정작 종합</td>
               </tr>
               <tr className="border-b border-zinc-100 dark:border-zinc-800">
                 <td className="py-2 pr-4 font-mono">GET</td>
-                <td className="py-2 pr-4 font-mono">/api/upcoming/lotte</td>
+                <td className="py-2 pr-4 font-mono">/api/upcoming/lotte.json</td>
                 <td className="py-2">롯데시네마 상영예정작</td>
               </tr>
               <tr className="border-b border-zinc-100 dark:border-zinc-800">
                 <td className="py-2 pr-4 font-mono">GET</td>
-                <td className="py-2 pr-4 font-mono">/api/upcoming/cgv</td>
+                <td className="py-2 pr-4 font-mono">/api/upcoming/cgv.json</td>
                 <td className="py-2">CGV 상영예정작</td>
               </tr>
               <tr>
                 <td className="py-2 pr-4 font-mono">GET</td>
-                <td className="py-2 pr-4 font-mono">/api/upcoming/megabox</td>
+                <td className="py-2 pr-4 font-mono">/api/upcoming/megabox.json</td>
                 <td className="py-2">메가박스 상영예정작</td>
               </tr>
             </tbody>
@@ -143,7 +143,7 @@ export default function Home() {
           개별 박스오피스 (BoxOfficeMovie[])
         </h3>
         <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-          GET /api/boxoffice/cgv
+          GET /api/boxoffice/cgv.json
         </p>
         <pre className="mt-2 overflow-x-auto rounded-lg bg-zinc-100 p-4 text-sm dark:bg-zinc-800">
           <code>{`[
@@ -192,7 +192,7 @@ export default function Home() {
 
         <h3 className="mt-8 text-xl font-semibold">종합 박스오피스</h3>
         <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-          GET /api/boxoffice
+          GET /api/boxoffice.json
         </p>
         <pre className="mt-2 overflow-x-auto rounded-lg bg-zinc-100 p-4 text-sm dark:bg-zinc-800">
           <code>{`{
@@ -206,7 +206,7 @@ export default function Home() {
           개별 상영예정작 (UpcomingMovie[])
         </h3>
         <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-          GET /api/upcoming/lotte
+          GET /api/upcoming/lotte.json
         </p>
         <pre className="mt-2 overflow-x-auto rounded-lg bg-zinc-100 p-4 text-sm dark:bg-zinc-800">
           <code>{`[
@@ -446,8 +446,7 @@ export default function Home() {
           <div>
             <dt className="font-semibold">데이터 갱신 주기</dt>
             <dd className="mt-1">
-              데이터 레벨 24시간 캐시 + Vercel Cron으로 매일 00:00 UTC에
-              자동 갱신됩니다.
+              GitHub Actions로 매일 00:00 UTC에 자동 갱신됩니다.
             </dd>
           </div>
           <div>
@@ -478,13 +477,10 @@ export default function Home() {
             </dd>
           </div>
           <div>
-            <dt className="font-semibold">잘못된 source 요청</dt>
+            <dt className="font-semibold">유효한 source 값</dt>
             <dd className="mt-1">
-              유효하지 않은 source 값으로 요청하면{" "}
-              <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm dark:bg-zinc-800">
-                404 Not Found
-              </code>{" "}
-              응답이 반환됩니다.
+              lotte, cgv, megabox만 사용할 수 있습니다.
+              해당하는 JSON 파일이 없으면 404 응답이 반환됩니다.
             </dd>
           </div>
         </dl>
