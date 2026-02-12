@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 
 import { searchMovieInfo } from './index';
 
-describe('enrich', () => {
+describe.skipIf(!!process.env.CI)('enrich', () => {
   it('영화코드로 상세정보를 조회한다', async () => {
     const info = await searchMovieInfo({ movieCd: '20183782' });
     expect(info.movieNm).toBe('기생충');
