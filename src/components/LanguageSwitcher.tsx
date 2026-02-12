@@ -13,7 +13,7 @@ export function LanguageSwitcher({ current }: { current: Locale }) {
         }
         aria-current={current === "en" ? "page" : undefined}
       >
-        EN
+        🇺🇸 EN
       </Link>
       <span className="text-zinc-300 dark:text-zinc-600">/</span>
       <Link
@@ -25,7 +25,7 @@ export function LanguageSwitcher({ current }: { current: Locale }) {
         }
         aria-current={current === "ko" ? "page" : undefined}
       >
-        KO
+        🇰🇷 KO
       </Link>
     </nav>
   );

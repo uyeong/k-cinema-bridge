@@ -15,7 +15,7 @@ export default async function Home({
     <div className="mx-auto max-w-3xl px-6 py-16 font-[family-name:var(--font-geist-sans)]">
       <header className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">k-cinema-bridge</h1>
+          <h1 className="text-3xl font-bold tracking-tight">K Cinema Bridge</h1>
           <p className="mt-2 text-lg text-zinc-600 dark:text-zinc-400">
             {t.header.subtitle}
           </p>
