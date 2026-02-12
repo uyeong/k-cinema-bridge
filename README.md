@@ -1,6 +1,52 @@
 # k-cinema-bridge
 
-한국 3대 멀티플렉스(롯데시네마, CGV, 메가박스)의 영화 데이터를 수집하여 통합 JSON API로 제공하는 정적 데이터 브릿지입니다.
+A static data bridge that collects movie data from Korea's three major multiplex chains (Lotte Cinema, CGV, Megabox) and serves it as a unified JSON API.
+
+- [English](#data-sources)
+- [한국어](#데이터-소스)
+
+## Data Sources
+
+| Source | Collected Data |
+|---|---|
+| Lotte Cinema | Box office, Upcoming movies |
+| CGV | Box office, Upcoming movies |
+| Megabox | Box office, Upcoming movies |
+
+## Pipeline
+
+The pipeline consists of three stages:
+
+1. **Crawl** - Collects raw box office and upcoming movie data from each cinema chain's website using Playwright.
+2. **Transform** - Converts the different raw data formats into a unified schema and enriches them with detailed movie information from the KOBIS API.
+3. **Publish** - Generates static JSON files and deploys them to GitHub Pages.
+
+## API
+
+| Path | Description |
+|---|---|
+| `GET /api/boxoffice.json` | Combined box office from all sources |
+| `GET /api/boxoffice/lotte.json` | Lotte Cinema box office |
+| `GET /api/boxoffice/cgv.json` | CGV box office |
+| `GET /api/boxoffice/megabox.json` | Megabox box office |
+| `GET /api/upcoming.json` | Combined upcoming movies from all sources |
+| `GET /api/upcoming/lotte.json` | Lotte Cinema upcoming movies |
+| `GET /api/upcoming/cgv.json` | CGV upcoming movies |
+| `GET /api/upcoming/megabox.json` | Megabox upcoming movies |
+
+Combined endpoints return data grouped by source: `{ "lotte": [...], "cgv": [...], "megabox": [...] }`.
+
+## Scheduling
+
+Data is collected and deployed to GitHub Pages daily at 00:00 UTC via GitHub Actions.
+
+## Tech Stack
+
+- **Runtime**: Next.js 16 (App Router) + TypeScript
+- **Package Manager**: pnpm
+- **Hosting**: GitHub Pages
+
+---
 
 ## 데이터 소스
 
@@ -16,29 +62,29 @@
 
 1. **Crawl** - Playwright로 각 극장사 웹사이트에서 박스오피스 및 상영예정작 원시 데이터를 수집합니다.
 2. **Transform** - 극장사별로 상이한 원시 데이터를 통합 스키마로 변환하고, KOBIS API로 영화 상세 정보를 보강합니다.
-3. **Publish** - Next.js Route Handler로 JSON API를 제공합니다. ISR(`revalidate = 86400`)로 24시간 주기 재검증합니다.
+3. **Publish** - 정적 JSON 파일을 생성하여 GitHub Pages로 배포합니다.
 
 ## API
 
 | 경로 | 설명 |
 |---|---|
-| `GET /api/boxoffice` | 3사 종합 박스오피스 |
-| `GET /api/boxoffice/lotte` | 롯데시네마 박스오피스 |
-| `GET /api/boxoffice/cgv` | CGV 박스오피스 |
-| `GET /api/boxoffice/megabox` | 메가박스 박스오피스 |
-| `GET /api/upcoming` | 3사 종합 상영예정작 |
-| `GET /api/upcoming/lotte` | 롯데시네마 상영예정작 |
-| `GET /api/upcoming/cgv` | CGV 상영예정작 |
-| `GET /api/upcoming/megabox` | 메가박스 상영예정작 |
+| `GET /api/boxoffice.json` | 3사 종합 박스오피스 |
+| `GET /api/boxoffice/lotte.json` | 롯데시네마 박스오피스 |
+| `GET /api/boxoffice/cgv.json` | CGV 박스오피스 |
+| `GET /api/boxoffice/megabox.json` | 메가박스 박스오피스 |
+| `GET /api/upcoming.json` | 3사 종합 상영예정작 |
+| `GET /api/upcoming/lotte.json` | 롯데시네마 상영예정작 |
+| `GET /api/upcoming/cgv.json` | CGV 상영예정작 |
+| `GET /api/upcoming/megabox.json` | 메가박스 상영예정작 |
 
 종합 엔드포인트는 source별로 그룹핑하여 `{ "lotte": [...], "cgv": [...], "megabox": [...] }` 형태로 반환합니다.
 
 ## 스케줄링
 
-Vercel Cron Jobs로 매일 00:00 UTC에 `/api/revalidate`를 호출하여 전체 경로를 갱신합니다.
+GitHub Actions로 매일 00:00 UTC에 데이터를 수집하고 GitHub Pages에 배포합니다.
 
 ## 기술 스택
 
 - **Runtime**: Next.js 16 (App Router) + TypeScript
 - **Package Manager**: pnpm
-- **Hosting**: Vercel
+- **Hosting**: GitHub Pages
