@@ -13,6 +13,11 @@ const GRADE_MAP: Record<string, string> = {
   'age-no': '미정',
 };
 
+// 이중 인코딩된 HTML 엔티티를 디코딩한다 (&amp;AMP; → &AMP; → &)
+function decodeEntities(text: string): string {
+  return text.replace(/&AMP;/gi, '&').replace(/&LT;/gi, '<').replace(/&GT;/gi, '>');
+}
+
 function parseGrade(className: string): string {
   const key = className.split(' ').find((c) => c.startsWith('age-')) ?? '';
   return GRADE_MAP[key] ?? '';
@@ -70,7 +75,7 @@ async function crawlMegaboxBoxOffice(): Promise<CrawledBoxOfficeMovie[]> {
     }) as RawMegaboxBoxOfficeItem[];
     return rawItems.map(({ title, posterUrl, gradeClass }, i) => ({
       rank: i + 1,
-      title,
+      title: decodeEntities(title),
       rating: parseGrade(gradeClass),
       posterUrl,
     }));
@@ -109,7 +114,7 @@ async function crawlMegaboxUpcoming(): Promise<CrawledUpcomingMovie[]> {
       return results;
     }) as RawMegaboxUpcomingItem[];
     return rawItems.map(({ title, posterUrl, gradeClass, dateText }) => ({
-      title,
+      title: decodeEntities(title),
       rating: parseGrade(gradeClass),
       posterUrl,
       releaseDate: parseReleaseDate(dateText),
