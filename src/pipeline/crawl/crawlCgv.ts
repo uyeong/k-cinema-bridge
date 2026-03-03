@@ -16,6 +16,7 @@ const RATING_MAP: Record<string, string> = {
   '15세관람가': '15세 관람가',
   '청소년 관람불가': '청소년 관람불가',
   '청소년관람불가': '청소년 관람불가',
+  '미정': '미정',
 };
 
 function normalizeRating(alt: string): string {

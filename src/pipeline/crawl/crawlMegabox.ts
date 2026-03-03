@@ -9,6 +9,8 @@ const GRADE_MAP: Record<string, string> = {
   'age-12': '12세 관람가',
   'age-15': '15세 관람가',
   'age-18': '청소년 관람불가',
+  'age-19': '청소년 관람불가',
+  'age-no': '미정',
 };
 
 function parseGrade(className: string): string {

@@ -9,6 +9,8 @@ const GRADE_MAP: Record<string, string> = {
   gr_12: '12세 관람가',
   gr_15: '15세 관람가',
   gr_18: '청소년 관람불가',
+  gr_19: '청소년 관람불가',
+  gr_non: '미정',
 };
 
 interface RawBoxOfficeItem {
