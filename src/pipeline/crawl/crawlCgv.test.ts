@@ -4,8 +4,10 @@ import { crawlCgvBoxOffice, crawlCgvUpcoming } from './crawlCgv';
 
 import type { CrawledBoxOfficeMovie, CrawledUpcomingMovie } from './types';
 
+const CRAWL_TEST_TIMEOUT_MS = process.env.CI ? 90_000 : 30_000;
+
 describe('crawlCgv', () => {
-  it('박스오피스 목록을 반환한다', async () => {
+  it('박스오피스 목록을 반환한다', { timeout: CRAWL_TEST_TIMEOUT_MS }, async () => {
     const movies: CrawledBoxOfficeMovie[] = await crawlCgvBoxOffice();
     expect(movies.length).toBeGreaterThan(0);
     const first = movies[0];
@@ -14,7 +16,7 @@ describe('crawlCgv', () => {
     expect(first.rating).toBeTruthy();
     expect(first.posterUrl).toBeTruthy();
   });
-  it('상영예정작 목록을 반환한다', async () => {
+  it('상영예정작 목록을 반환한다', { timeout: CRAWL_TEST_TIMEOUT_MS }, async () => {
     const movies: CrawledUpcomingMovie[] = await crawlCgvUpcoming();
     expect(movies.length).toBeGreaterThan(0);
     const first = movies[0];
