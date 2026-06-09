@@ -2,7 +2,9 @@ import type { Browser } from 'playwright-core';
 
 async function createBrowser(): Promise<Browser> {
   const { chromium } = await import('playwright');
-  return chromium.launch();
+  return chromium.launch({
+    args: ['--disable-blink-features=AutomationControlled'],
+  });
 }
 
 // 공유 브라우저: withSharedBrowser 내부에서 launchBrowser를 호출하면

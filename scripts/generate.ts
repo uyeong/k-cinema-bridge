@@ -23,12 +23,24 @@ async function crawlSource(source: (typeof SOURCES)[number]) {
 }
 
 async function crawlWithRetry(source: (typeof SOURCES)[number]) {
-  try {
-    return await crawlSource(source);
-  } catch (err) {
-    console.warn(`[${source}] failed, retrying... (${err})`);
-    return crawlSource(source);
+  const maxAttempts = source === 'megabox' ? 3 : 2;
+  let lastError: unknown;
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      console.log(`[${source}] crawl attempt ${attempt}/${maxAttempts}`);
+      return await crawlSource(source);
+    } catch (err) {
+      lastError = err;
+      const prefix = `[${source}] attempt ${attempt}/${maxAttempts} failed`;
+      if (attempt === maxAttempts) {
+        break;
+      }
+      console.warn(`${prefix}, retrying... (${err})`);
+    }
   }
+
+  throw lastError;
 }
 
 async function main() {
@@ -40,6 +52,7 @@ async function main() {
   const boxofficeAggregate: Record<string, unknown> = {};
   const upcomingAggregate: Record<string, unknown> = {};
   const errors: string[] = [];
+  const succeededSources: string[] = [];
 
   await withSharedBrowser(async () => {
     for (const source of SOURCES) {
@@ -49,6 +62,7 @@ async function main() {
         boxofficeAggregate[source] = boxofficeData;
         writeJSON(join(OUT_DIR, 'upcoming', `${source}.json`), upcomingData);
         upcomingAggregate[source] = upcomingData;
+        succeededSources.push(source);
       } catch (err) {
         console.error(`[${source}] failed after retry: ${err}`);
         errors.push(source);
@@ -58,10 +72,19 @@ async function main() {
 
   writeJSON(join(OUT_DIR, 'boxoffice.json'), boxofficeAggregate);
   writeJSON(join(OUT_DIR, 'upcoming.json'), upcomingAggregate);
+  writeJSON(join(OUT_DIR, 'crawl-status.json'), {
+    generatedAt: new Date().toISOString(),
+    succeededSources,
+    failedSources: errors,
+  });
+
+  if (errors.length === SOURCES.length) {
+    console.error(`\nAll sources failed: ${errors.join(', ')}`);
+    process.exit(1);
+  }
 
   if (errors.length) {
     console.warn(`\nPartial failure: ${errors.join(', ')}`);
-    process.exit(1);
   }
 
   console.log('Done.');

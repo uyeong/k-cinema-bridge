@@ -3,6 +3,12 @@ import { launchBrowser } from './browser';
 
 import type { CrawledBoxOfficeMovie, CrawledUpcomingMovie } from './types';
 
+const MEGABOX_USER_AGENT =
+  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36';
+const LIST_SELECTOR = 'ol > li';
+const PAGE_TIMEOUT_MS = 60_000;
+const LIST_TIMEOUT_MS = 15_000;
+
 // 관람등급 클래스명 → 등급 텍스트 매핑
 const GRADE_MAP: Record<string, string> = {
   'age-all': '전체 관람가',
@@ -30,12 +36,46 @@ function parseReleaseDate(text: string): string {
   return `${match[1]}-${match[2]}-${match[3]}`;
 }
 
+async function captureMegaboxDebug(page: import('playwright-core').Page, label: string): Promise<string> {
+  const title = await page.title().catch(() => '');
+  const url = page.url();
+  const bodyText = await page
+    .locator('body')
+    .textContent()
+    .then((text) => text?.replace(/\s+/g, ' ').trim().slice(0, 240) ?? '')
+    .catch(() => '');
+  return `[megabox:${label}] url=${url} title="${title}" body="${bodyText}"`;
+}
+
+async function openMegaboxPage(
+  page: import('playwright-core').Page,
+  url: string,
+  label: string,
+): Promise<void> {
+  try {
+    const response = await page.goto(url, {
+      timeout: PAGE_TIMEOUT_MS,
+      waitUntil: 'domcontentloaded',
+    });
+    await page.waitForLoadState('networkidle', { timeout: 5_000 }).catch(() => {});
+    await page.waitForSelector(LIST_SELECTOR, { timeout: LIST_TIMEOUT_MS });
+
+    if (!response?.ok()) {
+      const debug = await captureMegaboxDebug(page, label);
+      throw new Error(`${debug} status=${response?.status() ?? 'unknown'}`);
+    }
+  } catch (error) {
+    const debug = await captureMegaboxDebug(page, label);
+    throw new Error(`${debug} cause=${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
 // 더보기 버튼이 보이면 클릭하고 목록 갱신을 기다린다 (최대 2회)
 async function expandList(page: import('playwright-core').Page): Promise<void> {
   for (let i = 0; i < 2; i++) {
     const moreButton = page.locator('button.btn:not(.btn-more-notice-list)', { hasText: '더보기' });
     if (!(await moreButton.isVisible())) break;
-    const countBefore = await page.locator('ol > li').count();
+    const countBefore = await page.locator(LIST_SELECTOR).count();
     await moreButton.click();
     await page
       .waitForFunction(
@@ -56,10 +96,13 @@ interface RawMegaboxBoxOfficeItem {
 // 메가박스 박스오피스 목록을 크롤링한다
 async function crawlMegaboxBoxOffice(): Promise<CrawledBoxOfficeMovie[]> {
   const browser = await launchBrowser();
-  const page = await browser.newPage();
+  const page = await browser.newPage({
+    userAgent: MEGABOX_USER_AGENT,
+    locale: 'ko-KR',
+    timezoneId: 'Asia/Seoul',
+  });
   try {
-    await page.goto(MEGABOX_BOXOFFICE_PAGE_URL, { timeout: 60_000 });
-    await page.waitForSelector('ol > li', { timeout: 15_000 });
+    await openMegaboxPage(page, MEGABOX_BOXOFFICE_PAGE_URL, 'boxoffice');
     await expandList(page);
     const rawItems = await page.evaluate(() => {
       const items = document.querySelectorAll('ol > li');
@@ -94,10 +137,13 @@ interface RawMegaboxUpcomingItem {
 // 메가박스 상영예정작 목록을 크롤링한다
 async function crawlMegaboxUpcoming(): Promise<CrawledUpcomingMovie[]> {
   const browser = await launchBrowser();
-  const page = await browser.newPage();
+  const page = await browser.newPage({
+    userAgent: MEGABOX_USER_AGENT,
+    locale: 'ko-KR',
+    timezoneId: 'Asia/Seoul',
+  });
   try {
-    await page.goto(MEGABOX_UPCOMMING_PAGE_URL, { timeout: 60_000 });
-    await page.waitForSelector('ol > li', { timeout: 15_000 });
+    await openMegaboxPage(page, MEGABOX_UPCOMMING_PAGE_URL, 'comingsoon');
     await expandList(page);
     const rawItems = await page.evaluate(() => {
       const items = document.querySelectorAll('ol > li');
