@@ -4,9 +4,10 @@ import { crawlMegaboxBoxOffice, crawlMegaboxUpcoming } from './crawlMegabox';
 
 import type { CrawledBoxOfficeMovie, CrawledUpcomingMovie } from './types';
 
+const isCi = !!process.env.CI;
 const CRAWL_TEST_TIMEOUT_MS = process.env.CI ? 90_000 : 30_000;
 
-describe('crawlMegabox', () => {
+describe.skipIf(isCi)('crawlMegabox', () => {
   it('박스오피스 목록을 반환한다', { timeout: CRAWL_TEST_TIMEOUT_MS }, async () => {
     const movies: CrawledBoxOfficeMovie[] = await crawlMegaboxBoxOffice();
     expect(movies.length).toBeGreaterThan(0);

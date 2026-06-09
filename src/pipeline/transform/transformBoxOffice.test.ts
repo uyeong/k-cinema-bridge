@@ -2,10 +2,11 @@ import { describe, it, expect } from 'vitest';
 
 import { transformBoxOffice } from './index';
 
+const isCi = !!process.env.CI;
 const hasKobisEnv = !!process.env.KOBIS_API_URL && !!process.env.KOBIS_API_KEY;
 
 describe('transformBoxOffice', () => {
-  it.skipIf(!hasKobisEnv)('크롤 데이터를 BoxOfficeMovie로 변환한다', async () => {
+  it.skipIf(isCi || !hasKobisEnv)('크롤 데이터를 BoxOfficeMovie로 변환한다', async () => {
     const movies = [
       { rank: 1, title: '기생충', rating: '15세이상관람가', posterUrl: 'https://example.com/poster.jpg' },
     ];

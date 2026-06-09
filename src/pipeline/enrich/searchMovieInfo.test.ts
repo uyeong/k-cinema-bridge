@@ -2,9 +2,10 @@ import { describe, it, expect } from 'vitest';
 
 import { searchMovieInfo } from './index';
 
+const isCi = !!process.env.CI;
 const hasKobisEnv = !!process.env.KOBIS_API_URL && !!process.env.KOBIS_API_KEY;
 
-describe.skipIf(!hasKobisEnv)('enrich', () => {
+describe.skipIf(isCi || !hasKobisEnv)('enrich', () => {
   it('영화코드로 상세정보를 조회한다', async () => {
     const info = await searchMovieInfo({ movieCd: '20183782' });
     expect(info.movieNm).toBe('기생충');

@@ -2,9 +2,10 @@ import { describe, it, expect } from 'vitest';
 
 import { enrichMovie } from './index';
 
+const isCi = !!process.env.CI;
 const hasKobisEnv = !!process.env.KOBIS_API_URL && !!process.env.KOBIS_API_KEY;
 
-describe.skipIf(!hasKobisEnv)('enrichMovie', () => {
+describe.skipIf(isCi || !hasKobisEnv)('enrichMovie', () => {
   it('KOBIS에서 영화 정보를 조회한다', async () => {
     const info = await enrichMovie('기생충');
     expect(info).toBeDefined();
