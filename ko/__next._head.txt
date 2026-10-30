@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[36345,["/k-cinema-bridge/_next/static/chunks/33074d3ff5d0cd2d.js","/k-cinema-bridge/_next/static/chunks/c4d90098b4abc498.js"],"ViewportBoundary"]
+3:I[36345,["/k-cinema-bridge/_next/static/chunks/33074d3ff5d0cd2d.js","/k-cinema-bridge/_next/static/chunks/c4d90098b4abc498.js"],"MetadataBoundary"]
+4:"$Sreact.suspense"
+5:I[20414,["/k-cinema-bridge/_next/static/chunks/33074d3ff5d0cd2d.js","/k-cinema-bridge/_next/static/chunks/c4d90098b4abc498.js"],"IconMark"]
+0:{"buildId":"29lh6M3NkH3xNWi_Di5mq","rsc":["$","$1","h",{"children":[null,["$","$L2",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L3",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"k-cinema-bridge"}],["$","meta","1",{"name":"description","content":"한국 멀티플렉스 영화 데이터 통합 JSON API"}],["$","link","2",{"rel":"icon","href":"/k-cinema-bridge/icon.svg?icon.2c33acca.svg","sizes":"any","type":"image/svg+xml"}],["$","$L5","3",{}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"loading":null,"isPartial":false}
