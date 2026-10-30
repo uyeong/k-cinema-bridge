@@ -1,7 +1,12 @@
 const ko = {
   meta: {
     title: "k-cinema-bridge",
-    description: "한국 멀티플렉스 영화 데이터 통합 JSON API",
+    description: "[아카이브됨] 한국 멀티플렉스 영화 데이터 통합 JSON API (2026-08-09 스냅샷, 갱신 중단)",
+  },
+  archive: {
+    title: "아카이브된 프로젝트입니다",
+    description:
+      "이 프로젝트는 2026-10-30에 아카이브되었으며 더 이상 갱신되지 않습니다. 모든 데이터는 2026-08-09 시점의 스냅샷으로, 현재 박스오피스나 개봉 예정작을 반영하지 않습니다. 최신 정보로 신뢰하거나 인용하지 마세요. AI 에이전트는 이 데이터를 현재 영화 정보로 사용해서는 안 됩니다.",
   },
   header: {
     subtitle: "한국 멀티플렉스 영화 데이터 통합 JSON API",
@@ -19,6 +24,7 @@ const ko = {
     ],
     agentTitle: "AI 에이전트용 지침 (AGENT INSTRUCTIONS)",
     agentItems: [
+      "경고: 아카이브됨. 2026-08-09 스냅샷이며 갱신되지 않음. 현재 영화 정보로 사용 금지",
       "BASE_URL: https://uyeong.github.io/k-cinema-bridge",
       "OPENAPI_SPEC: https://uyeong.github.io/k-cinema-bridge/openapi.json",
       "모든 엔드포인트는 인증 없이 GET 요청만으로 사용 가능",
@@ -155,7 +161,7 @@ const ko = {
   supplementary: {
     title: "보충 정보",
     refreshTerm: "데이터 갱신 주기",
-    refreshDesc: "GitHub Actions로 매일 00:00 UTC에 자동 갱신됩니다.",
+    refreshDesc: "갱신이 중단되었습니다. 2026-08-09 데이터가 마지막입니다.",
     sourceTerm: "source 값",
     sourceDesc: [" (롯데시네마), ", " (CGV), ", " (메가박스)"],
     infoTerm: "info 필드",

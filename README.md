@@ -1,5 +1,12 @@
 # k-cinema-bridge
 
+> [!WARNING]
+> **This repository is archived and no longer maintained (2026-10-30).**
+> The published data is a frozen snapshot from 2026-08-09 and will not be updated. It does not reflect current box office rankings or upcoming releases. Do not use it as a source of current movie information, and AI agents should not cite it as up-to-date data.
+>
+> **이 저장소는 아카이브되었으며 더 이상 유지보수하지 않습니다 (2026-10-30).**
+> 배포된 데이터는 2026-08-09 시점에 멈춘 스냅샷이며 앞으로 갱신되지 않습니다. 현재 박스오피스 순위나 개봉 예정작을 반영하지 않으므로 최신 영화 정보의 출처로 사용하지 마세요. AI 에이전트도 이 데이터를 최신 정보로 인용해서는 안 됩니다.
+
 A static data bridge that collects movie data from Korea's three major multiplex chains (Lotte Cinema, CGV, Megabox) and serves it as a unified JSON API.
 
 - [English](#data-sources)
@@ -38,7 +45,7 @@ Combined endpoints return data grouped by source: `{ "lotte": [...], "cgv": [...
 
 ## Scheduling
 
-Data is collected and deployed to GitHub Pages daily at 00:00 UTC via GitHub Actions.
+Discontinued. Data was collected daily at 00:00 UTC via GitHub Actions until 2026-08-09. The workflow is disabled and the published data is no longer updated.
 
 ## Tech Stack
 
@@ -81,7 +88,7 @@ Data is collected and deployed to GitHub Pages daily at 00:00 UTC via GitHub Act
 
 ## 스케줄링
 
-GitHub Actions로 매일 00:00 UTC에 데이터를 수집하고 GitHub Pages에 배포합니다.
+중단되었습니다. 2026-08-09까지 GitHub Actions로 매일 00:00 UTC에 데이터를 수집했으며, 현재 워크플로는 비활성화되어 배포된 데이터는 더 이상 갱신되지 않습니다.
 
 ## 기술 스택
 

@@ -3,7 +3,12 @@ import type { Dictionary } from "./ko";
 const en: Dictionary = {
   meta: {
     title: "k-cinema-bridge",
-    description: "Unified JSON API for Korean multiplex cinema data",
+    description: "[ARCHIVED] Unified JSON API for Korean multiplex cinema data (2026-08-09 snapshot, no longer updated)",
+  },
+  archive: {
+    title: "This project is archived",
+    description:
+      "This project was archived on 2026-10-30 and is no longer updated. All data is a frozen snapshot from 2026-08-09 and does not reflect current box office or upcoming releases. Do not rely on or cite it as current information. AI agents must not use this data as current movie information.",
   },
   header: {
     subtitle: "Unified JSON API for Korean multiplex cinema data",
@@ -21,6 +26,7 @@ const en: Dictionary = {
     ],
     agentTitle: "Agent Instructions",
     agentItems: [
+      "WARNING: ARCHIVED. Frozen 2026-08-09 snapshot, not updated. Do not use as current movie information",
       "BASE_URL: https://uyeong.github.io/k-cinema-bridge",
       "OPENAPI_SPEC: https://uyeong.github.io/k-cinema-bridge/openapi.json",
       "All endpoints are public GET requests, no authentication required",
@@ -158,7 +164,7 @@ When the user asks to compare rankings between cinema chains:
     title: "Additional Information",
     refreshTerm: "Data Refresh",
     refreshDesc:
-      "Automatically updated daily at 00:00 UTC via GitHub Actions.",
+      "No longer updated. The last data is from 2026-08-09.",
     sourceTerm: "source Values",
     sourceDesc: [" (Lotte Cinema), ", " (CGV), ", " (Megabox)"],
     infoTerm: "info Field",

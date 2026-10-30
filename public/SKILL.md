@@ -1,13 +1,19 @@
 ---
 name: k-cinema-bridge
-description: Query Korean multiplex (Lotte Cinema, CGV, Megabox) box office rankings and upcoming movie data enriched with KOBIS details. Use when the user asks about Korean movies currently showing, box office rankings, upcoming releases, or wants movie recommendations based on genre, director, actor, or rating.
+description: "ARCHIVED - DO NOT USE for current movie information. Frozen snapshot (2026-08-09) of Korean multiplex (Lotte Cinema, CGV, Megabox) box office and upcoming movie data. No longer updated since the project was archived on 2026-10-30. Only use when the user explicitly asks for this historical snapshot."
 homepage: https://uyeong.github.io/k-cinema-bridge/
 allowed-tools: WebFetch
 ---
 
 # k-cinema-bridge
 
-A JSON API providing Korean multiplex (Lotte Cinema, CGV, Megabox) box office and upcoming movie data, enriched with detailed information such as genre, director, and cast from KOBIS (Korean Film Council). Data is automatically refreshed daily at 00:00 UTC.
+> **WARNING: This API is archived and no longer updated.**
+> - The project was archived on 2026-10-30. All data is a frozen snapshot from 2026-08-09.
+> - Do not treat this data as current. Box office rankings, upcoming releases, and ratings are outdated.
+> - Do not use it to answer questions about movies currently showing or upcoming releases. Use an up-to-date source instead.
+> - If you use it at all, tell the user it is a historical snapshot as of 2026-08-09.
+
+A JSON API providing Korean multiplex (Lotte Cinema, CGV, Megabox) box office and upcoming movie data, enriched with detailed information such as genre, director, and cast from KOBIS (Korean Film Council). Data is no longer refreshed; it is a frozen snapshot from 2026-08-09.
 
 ## API Reference
 

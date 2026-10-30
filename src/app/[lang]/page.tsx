@@ -23,6 +23,14 @@ export default async function Home({
         <LanguageSwitcher current={locale} />
       </header>
 
+      <aside
+        role="alert"
+        className="mt-8 rounded-lg border border-amber-300 bg-amber-50 p-4 text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200"
+      >
+        <p className="font-semibold">{t.archive.title}</p>
+        <p className="mt-1 text-sm leading-6">{t.archive.description}</p>
+      </aside>
+
       {/* Overview */}
       <section className="mt-12">
         <h2 className="text-2xl font-semibold">{t.overview.title}</h2>
