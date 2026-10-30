@@ -39,3 +39,6 @@
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# crawl failure diagnostics (CI artifact only)
+/diagnostics/
