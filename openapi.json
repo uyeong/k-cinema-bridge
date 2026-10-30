@@ -1,9 +1,13 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "k-cinema-bridge",
-    "description": "한국 멀티플렉스(롯데시네마, CGV, 메가박스) 영화 데이터 통합 JSON API. KOBIS 영화진흥위원회 데이터로 보강된 박스오피스 및 상영예정작 정보를 제공합니다.",
+    "title": "k-cinema-bridge (ARCHIVED)",
+    "description": "[ARCHIVED - 2026-10-30] 이 API는 아카이브되어 더 이상 갱신되지 않습니다. 모든 데이터는 2026-08-09 시점의 스냅샷이며 현재 정보로 신뢰하지 마세요. This API is archived and no longer updated. All data is a frozen snapshot from 2026-08-09; do not treat it as current.\n\n한국 멀티플렉스(롯데시네마, CGV, 메가박스) 영화 데이터 통합 JSON API. KOBIS 영화진흥위원회 데이터로 보강된 박스오피스 및 상영예정작 정보를 제공합니다.",
     "version": "1.0.0"
+  },
+  "x-archived": {
+    "archivedAt": "2026-10-30",
+    "dataSnapshotAt": "2026-08-09"
   },
   "servers": [
     {
@@ -14,7 +18,8 @@
     "/api/boxoffice.json": {
       "get": {
         "operationId": "getAllBoxOffice",
-        "summary": "전체 소스 박스오피스 종합",
+        "deprecated": true,
+        "summary": "[ARCHIVED] 전체 소스 박스오피스 종합",
         "description": "롯데시네마, CGV, 메가박스의 박스오피스 데이터를 소스별로 그룹화하여 반환합니다.",
         "responses": {
           "200": {
@@ -48,7 +53,8 @@
     "/api/boxoffice/{source}.json": {
       "get": {
         "operationId": "getBoxOfficeBySource",
-        "summary": "소스별 박스오피스",
+        "deprecated": true,
+        "summary": "[ARCHIVED] 소스별 박스오피스",
         "description": "특정 멀티플렉스의 박스오피스 데이터를 반환합니다.",
         "parameters": [
           {
@@ -77,7 +83,8 @@
     "/api/upcoming.json": {
       "get": {
         "operationId": "getAllUpcoming",
-        "summary": "전체 소스 상영예정작 종합",
+        "deprecated": true,
+        "summary": "[ARCHIVED] 전체 소스 상영예정작 종합",
         "description": "롯데시네마, CGV, 메가박스의 상영예정작 데이터를 소스별로 그룹화하여 반환합니다.",
         "responses": {
           "200": {
@@ -111,7 +118,8 @@
     "/api/upcoming/{source}.json": {
       "get": {
         "operationId": "getUpcomingBySource",
-        "summary": "소스별 상영예정작",
+        "deprecated": true,
+        "summary": "[ARCHIVED] 소스별 상영예정작",
         "description": "특정 멀티플렉스의 상영예정작 데이터를 반환합니다.",
         "parameters": [
           {
